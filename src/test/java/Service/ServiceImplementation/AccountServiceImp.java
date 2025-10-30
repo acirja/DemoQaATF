@@ -20,16 +20,20 @@ public class AccountServiceImp implements AccountServiceInterface {
     @Override
     public Response generateAccountToken(RequestAccount body) {
         accountApiService = new AccountApiService();
-        return accountApiService.post(body,"Account/v1/GenerateToken");
+        return accountApiService.post(body, "Account/v1/GenerateToken");
     }
 
     @Override
     public Response getSpecificAccount(String token, String userId) {
-        return null;
+        accountApiService = new AccountApiService();
+        String url = "Account/v1/User/" + userId;
+        return accountApiService.get(token, url);
     }
 
     @Override
     public Response deleteSpecificAccount(String token, String userId) {
-        return null;
-    } //aceasta clasa implementeaza interfata
+        accountApiService = new AccountApiService();
+        String url = "Account/v1/User/" + userId;
+        return accountApiService.delete(token, url);
+    }
 }

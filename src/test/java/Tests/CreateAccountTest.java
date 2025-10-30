@@ -1,5 +1,6 @@
 package Tests;
 
+import Actions.AccountActions;
 import ObjectData.RequestObject.RequestAccount;
 import ObjectData.ResponseObject.ResponseAccountGetSuccess;
 import ObjectData.ResponseObject.ResponseAccountSuccess;
@@ -17,88 +18,53 @@ public class CreateAccountTest {
     public String userId;
     public String token;
     public RequestAccount requestAccountBody;
+    public AccountActions accountActions;
 
     @Test
     public void testMethod(){
         System.out.println("Step 1: create new account");
         createAccount();
-
         System.out.println();
 
         System.out.println("Step 2: generate new token");
         generateToken();
-
         System.out.println();
 
         System.out.println(("Step 3: get new account"));
         getSpecificAccount();
+        System.out.println();
+
+        System.out.println(("Step 4: delete created new account"));
+        deleteSpecificAccount();
+        System.out.println();
+
+        System.out.println(("Step 5: re-check that account was deleted"));
+        getSpecificAccount();
+        System.out.println();
     }
 
     public void createAccount(){
-        //definim configurarile pentru client
-        RequestSpecification requestSpecification = RestAssured.given();
-        requestSpecification.baseUri("https://demoqa.com/");
-        requestSpecification.contentType("application/json");
-
-        //definim requestul
-        PropertyUtility propertyUtility = new PropertyUtility("RequestData/createAccountData"); //incarcam requestul dinamic si l-am serializat sub forma unui obiect
+        accountActions = new AccountActions();
+        //pregatim body-ul in functie de fisier Json pe care-l avem
+        PropertyUtility propertyUtility = new PropertyUtility("RequestData/createAccountData");
         requestAccountBody = new RequestAccount(propertyUtility.getAllData());
-        requestSpecification.body(requestAccountBody);
-
-        //interactionam cu responsul
-        Response response = requestSpecification.post("Account/v1/User");
-        System.out.println(response.getStatusCode());
-        Assert.assertEquals(response.getStatusCode(), 201);
-        System.out.println(response.getStatusLine());
-
-        //validam response body-ul
-        ResponseAccountSuccess responseAccountBody = response.body().as(ResponseAccountSuccess.class);
-        System.out.println(responseAccountBody.getUserID());
+        //chemam layerul de AccountActions care trigaruieste layerele de mai jos: 1 si 2, face Post si returneaza
+        //in obiectul specific ResponseAccountSucces, dupa care extram de pe el valoarea userId
+        ResponseAccountSuccess responseAccountBody = accountActions.createNewAccount(requestAccountBody);
         userId = responseAccountBody.getUserID();
-        Assert.assertEquals(responseAccountBody.getUsername(), requestAccountBody.getUserName());
     }
 
 
     public void generateToken(){
-        //definim configurarile pentru client
-        RequestSpecification requestSpecification = RestAssured.given();
-        requestSpecification.baseUri("https://demoqa.com/");
-        requestSpecification.contentType("application/json");
-
-        requestSpecification.body(requestAccountBody);
-
-        //interactionam cu responsul
-        Response response = requestSpecification.post("Account/v1/GenerateToken");
-        System.out.println(response.getStatusCode());
-        Assert.assertEquals(response.getStatusCode(), 200);
-        System.out.println(response.getStatusLine());
-
-        ResponseTokenSuccess responseTokenSuccess = response.body().as(ResponseTokenSuccess.class);
-        System.out.println(responseTokenSuccess.getToken());
-        token = responseTokenSuccess.getToken();
-
-        Assert.assertEquals(responseTokenSuccess.getStatus(), "Success");
-        Assert.assertEquals(responseTokenSuccess.getResult(), "User authorized successfully.");
-
+         ResponseTokenSuccess responseTokenSuccess = accountActions.generateToken(requestAccountBody);
+         token = responseTokenSuccess.getToken();
     }
 
     public void getSpecificAccount(){
-        //definim configurarile pentru client
-        RequestSpecification requestSpecification = RestAssured.given();
-        requestSpecification.baseUri("https://demoqa.com/");
-        requestSpecification.contentType("application/json");
-        requestSpecification.header("Authorization", "Bearer " + token);
-
-        //interactionam cu responsul
-        Response response = requestSpecification.get("Account/v1/User/" + userId);
-        System.out.println(response.getStatusCode());
-        Assert.assertEquals(response.getStatusCode(), 200);
-        System.out.println(response.getStatusLine());
-
-        ResponseAccountGetSuccess responseAccountGetSuccess = response.body().as(ResponseAccountGetSuccess.class);
-
-        Assert.assertEquals(responseAccountGetSuccess.getUsername(), requestAccountBody.getUserName());
+        accountActions.getSpecificAccount(token, userId, requestAccountBody);
     }
 
-
+    public void deleteSpecificAccount(){
+        accountActions.deleteSpecificAccount(token, userId);
+    }
 }
