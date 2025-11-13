@@ -6,20 +6,20 @@ import org.apache.logging.log4j.Logger;
 public class LoggerUtility {
 
     //trebuie sa definim o instanta de logger
-    //trebuie sa definim o metoda care sa porneasca un test
-    //trebuie sa definim o metoda care sa opresca un test
-    //metoda de info, metoda de error
 
     private static final Logger logger = LogManager.getLogger(); //instanta care va tine info de care am nevoie
 
+    //trebuie sa definim o metoda care sa porneasca un test
     public static void startTestCase(String testName){
         logger.info("****** Execution started: " + testName + " ******" );
     }
 
+    //trebuie sa definim o metoda care sa opresca un test
     public static void finishTestCase(String testName){
         logger.info("****** Execution finished: " + testName + " ******" );
     }
 
+    //metoda de info, metoda de error
     public static void infoTest(String message){
         logger.info(message);
     }
