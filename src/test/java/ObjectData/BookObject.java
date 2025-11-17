@@ -32,6 +32,9 @@ public class BookObject {
     @JsonProperty("website")
     private String website;
 
+    public BookObject(String book) {
+    }
+
     public String getIsbn() {
         return isbn;
     }

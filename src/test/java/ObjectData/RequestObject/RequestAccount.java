@@ -9,7 +9,6 @@ public class RequestAccount implements RequestPreparation {
     private String userName;
     private String password;
 
-
     public RequestAccount(HashMap<String, String> testData){
         prepareObject(testData);
     }
