@@ -1,8 +1,11 @@
 package ObjectData.RequestObject;
 
 import ObjectData.RequestPreparation;
+import lombok.Data;
 
 import java.util.HashMap;
+
+@Data
 
 public class RequestAccount implements RequestPreparation {
 
@@ -33,19 +36,4 @@ public class RequestAccount implements RequestPreparation {
         userName = userName + System.currentTimeMillis();
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

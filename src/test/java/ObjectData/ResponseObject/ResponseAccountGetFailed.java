@@ -2,8 +2,11 @@ package ObjectData.ResponseObject;
 
 import ObjectData.BookObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
 import java.util.List;
+
+@Getter
 
 public class ResponseAccountGetFailed {
     @JsonProperty("code")
@@ -12,11 +15,4 @@ public class ResponseAccountGetFailed {
     @JsonProperty("message")
     private String message;
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

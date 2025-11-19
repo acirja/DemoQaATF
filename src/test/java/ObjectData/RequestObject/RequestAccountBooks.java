@@ -2,11 +2,14 @@ package ObjectData.RequestObject;
 
 import ObjectData.BookObject;
 import ObjectData.RequestPreparation;
+import lombok.Data;
 
 import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+@Data
 
 public class RequestAccountBooks implements RequestPreparation {
 
@@ -41,19 +44,4 @@ public class RequestAccountBooks implements RequestPreparation {
         }
     }
 
-    public String getUseId() {
-        return useId;
-    }
-
-    public void setUseId(String useId) {
-        this.useId = useId;
-    }
-
-    public List<BookObject> getCollectionOfIsbns() {
-        return collectionOfIsbns;
-    }
-
-    public void setCollectionOfIsbns(List<BookObject> collectionOfIsbns) {
-        this.collectionOfIsbns = collectionOfIsbns;
-    }
 }

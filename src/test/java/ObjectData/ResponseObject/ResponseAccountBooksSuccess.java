@@ -2,13 +2,10 @@ package ObjectData.ResponseObject;
 
 import ObjectData.BookObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 
 import java.util.List;
 
-@Getter
-
-public class ResponseAccountGetSuccess {
+public class ResponseAccountBooksSuccess {
 
     @JsonProperty("userId")
     private String userID;
@@ -20,5 +17,3 @@ public class ResponseAccountGetSuccess {
     private List<BookObject> books;
 
 }
-
-
