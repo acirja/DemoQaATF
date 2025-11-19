@@ -35,6 +35,19 @@ public class CommonApiService {
     }
 
 
+    public Response put(Object body, String endpoint, String token){
+        RequestSpecification requestSpecification = RestAssured.given();
+
+        requestSpecification.header("Authorization", "Bearer"+ token);
+        //pentru acest tip de metoda o sa facem un POST cu un body
+        requestSpecification.body(body);
+        ServiceHelper.requestLogs(requestSpecification, endpoint, RequestType.REQUEST_PUT);
+
+        Response response = performRequest(RequestType.REQUEST_PUT, requestSpecification, endpoint);
+        ServiceHelper.responseLogs(response);
+        return response;
+    }
+
     public Response get(String token, String endPoint){
         RequestSpecification requestSpecification = RestAssured.given();
         requestSpecification.header("Authorization", "Bearer"+ token);
@@ -53,8 +66,19 @@ public class CommonApiService {
         Response response = performRequest(RequestType.REQUEST_DELETE, requestSpecification, endPoint);
         ServiceHelper.responseLogs(response);
         return response;
-
     }
+
+    public Response delete(Object body, String token, String endPoint){
+        RequestSpecification requestSpecification = RestAssured.given();
+        requestSpecification.header("Authorization", "Bearer"+ token);
+        requestSpecification.body(body);
+        ServiceHelper.requestLogs(requestSpecification, endPoint, RequestType.REQUEST_DELETE);
+
+        Response response = performRequest(RequestType.REQUEST_DELETE, requestSpecification, endPoint);
+        ServiceHelper.responseLogs(response);
+        return response;
+    }
+
 
     //metoda care instantiaza legatura cu layer 1
     private Response performRequest(String requestType, RequestSpecification requestSpecification, String endPoint){

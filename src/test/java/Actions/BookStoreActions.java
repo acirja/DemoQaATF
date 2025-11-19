@@ -1,8 +1,8 @@
 package Actions;
 
 import ObjectData.RequestObject.RequestAccountBooks;
+import ObjectData.ResponseObject.ResponseAccountBooksSuccess;
 import RestClient.ResponseStatus;
-import Service.ServiceImplementation.AccountServiceImp;
 import Service.ServiceImplementation.BookStoreServiceImpl;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -19,5 +19,8 @@ public class BookStoreActions {
         Response response = bookStoreServiceImpl.addBooksToAccount(requestAccountBooks, token);
 
         Assert.assertEquals(response.getStatusCode(), ResponseStatus.SC_CREATED);
+        ResponseAccountBooksSuccess responseAccountBooksSuccess = response.body().as(ResponseAccountBooksSuccess.class);
+        responseAccountBooksSuccess.validatedNotNullFields();
+        responseAccountBooksSuccess.validateBooks(requestAccountBooks.getCollectionOfIsbns());
     }
 }

@@ -21,9 +21,11 @@ public class AccountActions {
 
     //cream un cont nou, face assert si returneaza obiectul pentru ca mai tarziu vrem sa extragem anumite informatii de acolo
     public ResponseAccountSuccess createNewAccount(RequestAccount requestAccount){
+
         Response response = accountServiceImp.createAccount(requestAccount);
         Assert.assertEquals(response.getStatusCode(), ResponseStatus.SC_CREATED);
         ResponseAccountSuccess responseAccountBody = response.body().as(ResponseAccountSuccess.class);
+        responseAccountBody.validatedNotNullFields();
         Assert.assertEquals(responseAccountBody.getUsername(), requestAccount.getUserName());
         return responseAccountBody;
     }
@@ -32,6 +34,7 @@ public class AccountActions {
         Response response = accountServiceImp.generateAccountToken(requestAccount);
         Assert.assertEquals(response.getStatusCode(), ResponseStatus.SC_OK);
         ResponseTokenSuccess responseTokenSuccess = response.body().as(ResponseTokenSuccess.class);
+        responseTokenSuccess.validatedNotNullFields();
         Assert.assertEquals(responseTokenSuccess.getStatus(), "Success");
         Assert.assertEquals(responseTokenSuccess.getResult(), "User authorized successfully."); //
         return responseTokenSuccess;

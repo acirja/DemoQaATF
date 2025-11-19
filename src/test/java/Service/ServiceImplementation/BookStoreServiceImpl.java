@@ -14,4 +14,19 @@ public class BookStoreServiceImpl implements BookStoreServiceInterface {
         bookStoreApiService = new BookStoreApiService();
         return bookStoreApiService.post(body, "BookStore/v1/Books", token);
     }
+
+    @Override
+    public Response updatedSpecificBook() {
+        return null;
+    }
+
+    @Override
+    public Response deleteSpecificBook() {
+        return null;
+    }
+
+    @Override
+    public Response deleteBook() {
+        return null;
+    }
 }

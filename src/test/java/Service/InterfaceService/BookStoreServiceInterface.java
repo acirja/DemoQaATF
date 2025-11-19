@@ -8,4 +8,12 @@ public interface BookStoreServiceInterface {
     //aceasta interfata reprezinta actiunile pe care serviciul BookStore le poate face
 
     Response addBooksToAccount(RequestAccountBooks body, String token);
+
+
+    //de implementat data viitoare
+    Response updatedSpecificBook();
+
+    Response deleteSpecificBook();
+
+    Response deleteBook();
 }

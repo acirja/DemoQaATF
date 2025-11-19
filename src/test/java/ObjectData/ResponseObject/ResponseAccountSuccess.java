@@ -1,14 +1,17 @@
 package ObjectData.ResponseObject;
 
-import ObjectData.BookObject;
+import ObjectData.ResponseObject.modelObject.ResponseBookObject;
+import ObjectData.ResponseNotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import org.testng.Assert;
 
 import java.util.List;
 
 @Getter
 
-public class ResponseAccountSuccess {
+public class ResponseAccountSuccess implements ResponseNotNull {
 
     @JsonProperty("userID")
     private String userID;
@@ -17,5 +20,14 @@ public class ResponseAccountSuccess {
     private String username;
 
     @JsonProperty("books")
-    private List<BookObject> books;
+    private List<ResponseBookObject> books;
+
+    @Override
+    public void validatedNotNullFields() {
+        Assert.assertNotNull(userID);
+        Assert.assertNotNull(username);
+        for (ResponseBookObject bookObject: books){
+            bookObject.validatedNotNullFields();
+        }
+    }
 }
